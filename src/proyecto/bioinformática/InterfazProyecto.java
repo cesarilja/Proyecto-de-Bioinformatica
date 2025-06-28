@@ -4,18 +4,52 @@
  */
 package proyecto.bioinformática;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Dell
  */
 public class InterfazProyecto extends javax.swing.JFrame {
+private HashTableTripletas tablaHash;
+private GestorSecuencia gestorSecuencia;
 
     /**
      * Creates new form InterfazProyecto
      */
     public InterfazProyecto() {
+        tablaHash = new HashTableTripletas();
+        gestorSecuencia = new GestorSecuencia();
         initComponents();
     }
+    
+    private void llenarTablaTripletas() {
+    DefaultTableModel model = (DefaultTableModel) tablaTripletas.getModel();
+    model.setRowCount(0); // Limpia la tabla
+    for (Tripleta t : tablaHash.obtenerTodas()) {
+        model.addRow(new Object[]{
+            t.getValor(),
+            t.getFrecuencia(),
+            t.getPosiciones().toString()
+            });
+        }
+        }
+
+    private void llenarComboBoxTripletas() {
+        comboTripletas.removeAllItems();
+        for (Tripleta t : tablaHash.obtenerTodas()) {
+            comboTripletas.addItem(t.getValor());
+        }
+    }
+    
+    private void mostrarMasYMenosFrecuente() {
+    Tripleta mas = tablaHash.getMasFrecuente();
+    Tripleta menos = tablaHash.getMenosFrecuente();
+    lblMasFrecuente.setText(mas != null ? mas.getValor() : "");
+    lblMenosFrecuente.setText(menos != null ? menos.getValor() : "");
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -40,7 +74,7 @@ public class InterfazProyecto extends javax.swing.JFrame {
         lblResultadoBusqueda = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         lblMenosFrecuente = new javax.swing.JLabel();
-        lblMasFrecuente1 = new javax.swing.JLabel();
+        lblMasFrecuente = new javax.swing.JLabel();
         btnColisiones = new javax.swing.JButton();
         btnAminoacidos = new javax.swing.JButton();
 
@@ -51,6 +85,11 @@ public class InterfazProyecto extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, -1, -1));
 
         btnCargarArchivo.setText("CARGAR SECUENCIA");
+        btnCargarArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarArchivoActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnCargarArchivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 490, 570, 20));
 
@@ -92,8 +131,8 @@ public class InterfazProyecto extends javax.swing.JFrame {
         lblMenosFrecuente.setText("MENOS FRECUENTE:  ");
         getContentPane().add(lblMenosFrecuente, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 460, -1, -1));
 
-        lblMasFrecuente1.setText("MÁS FRECUENTE:  ");
-        getContentPane().add(lblMasFrecuente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, -1, -1));
+        lblMasFrecuente.setText("MÁS FRECUENTE:  ");
+        getContentPane().add(lblMasFrecuente, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, -1, -1));
 
         btnColisiones.setText("VER COLISIONES");
         btnColisiones.addActionListener(new java.awt.event.ActionListener() {
@@ -112,6 +151,10 @@ public class InterfazProyecto extends javax.swing.JFrame {
     private void btnColisionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColisionesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnColisionesActionPerformed
+
+    private void btnCargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarArchivoActionPerformed
+
+    }//GEN-LAST:event_btnCargarArchivoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -162,7 +205,7 @@ public class InterfazProyecto extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JLabel lblMasFrecuente1;
+    private javax.swing.JLabel lblMasFrecuente;
     private javax.swing.JLabel lblMenosFrecuente;
     private javax.swing.JLabel lblResultadoBusqueda;
     private javax.swing.JTable tablaTripletas;
