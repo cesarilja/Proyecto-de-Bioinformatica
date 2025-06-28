@@ -101,10 +101,10 @@ public class InterfazProyecto extends javax.swing.JFrame {
                 btnColisionesActionPerformed(evt);
             }
         });
-        getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 510, -1, -1));
+        getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 510, -1, -1));
 
         btnAminoacidos.setText("VER AMINOÁCIDOS");
-        getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 510, -1, -1));
+        getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 510, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
