@@ -5,6 +5,8 @@
 package proyecto.bioinformática;
 import java.io.*;
 import java.util.*;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -42,7 +44,27 @@ public class GestorSecuencia {
         }
         return tripletas;
     }
-}
-
     
-
+    // Método para mostrar diálogo y leer el archivo de la secuencia
+    public String leerSecuenciaDeArchivo() {
+        JFileChooser fileChooser = new JFileChooser();
+        int seleccion = fileChooser.showOpenDialog(null);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File archivo = fileChooser.getSelectedFile();
+            StringBuilder secuencia = new StringBuilder();
+            try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    // Opcional: ignorar encabezado FASTA
+                    if (!linea.startsWith(">")) {
+                        secuencia.append(linea.trim().toUpperCase());
+                    }
+                }
+                return secuencia.toString();
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + e.getMessage());
+            }
+        }
+        return null;
+    }
+}

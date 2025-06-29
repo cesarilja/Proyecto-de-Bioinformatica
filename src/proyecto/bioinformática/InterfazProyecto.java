@@ -4,8 +4,10 @@
  */
 package proyecto.bioinformática;
 
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import proyecto.bioinformática.Tripleta;
 
 /**
  *
@@ -143,18 +145,62 @@ private GestorSecuencia gestorSecuencia;
         getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 510, -1, -1));
 
         btnAminoacidos.setText("VER AMINOÁCIDOS");
+        btnAminoacidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAminoacidosActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 510, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnColisionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColisionesActionPerformed
-        // TODO add your handling code here:
+       List<List<Tripleta>> colisiones = tablaHash.obtenerColisiones();
+    StringBuilder sb = new StringBuilder();
+    for (List<Tripleta> bucket : colisiones) {
+        sb.append("Colisión en bucket:\n");
+        for (Tripleta t : bucket) {
+            sb.append(" - ").append(t.getValor()).append("\n");
+        }
+    }
+    JOptionPane.showMessageDialog(this, sb.length() > 0 ? sb.toString() : "No hay colisiones.");
+
     }//GEN-LAST:event_btnColisionesActionPerformed
 
     private void btnCargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarArchivoActionPerformed
+    tablaHash.limpiar(); // Limpia la tabla por si ya había datos
+
+    String secuencia = gestorSecuencia.leerSecuenciaDeArchivo();
+    if (secuencia == null || secuencia.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "No se pudo leer la secuencia.");
+        return;
+    }
+
+    // Divide en tripletas e inserta en la hash
+    for (int i = 0; i + 2 < secuencia.length(); i += 3) {
+        String tripleta = secuencia.substring(i, i + 3);
+        tablaHash.insertarTripleta(tripleta, i);
+    }
+
+    llenarTablaTripletas();
+    llenarComboBoxTripletas();
+    mostrarMasYMenosFrecuente();
+    JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
 
     }//GEN-LAST:event_btnCargarArchivoActionPerformed
+
+    private void btnAminoacidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAminoacidosActionPerformed
+        StringBuilder resultado = new StringBuilder();
+    for (Tripleta t : tablaHash.obtenerTodas()) {
+        resultado.append(t.getValor())
+                 .append(" → ")
+                 .append(AminoacidosMapper.traducir(t.getValor()))
+                 .append("\n");
+    }
+    JOptionPane.showMessageDialog(this, resultado.toString());
+
+    }//GEN-LAST:event_btnAminoacidosActionPerformed
 
     /**
      * @param args the command line arguments
