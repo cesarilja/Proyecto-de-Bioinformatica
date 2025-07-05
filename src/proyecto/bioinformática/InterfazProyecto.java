@@ -4,9 +4,13 @@
  */
 package proyecto.bioinformática;
 
+import java.awt.Dimension;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import proyecto.bioinformática.AnalizadorAminoacidos.InfoTripleta;
 import proyecto.bioinformática.Tripleta;
 import proyecto.bioinformática.AnalizadorAminoacidos.InfoTripleta;
 import java.awt.*;
@@ -146,7 +150,11 @@ private GestorSecuencia gestorSecuencia;
                 btnColisionesActionPerformed(evt);
             }
         });
+<<<<<<< HEAD
         getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, -1, -1));
+=======
+        getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 510, -1, -1));
+>>>>>>> 35c07b6cec387bcdfce485689f6303e9af818e1d
 
         btnAminoacidos.setText("VER AMINOÁCIDOS");
         btnAminoacidos.addActionListener(new java.awt.event.ActionListener() {
@@ -154,6 +162,7 @@ private GestorSecuencia gestorSecuencia;
                 btnAminoacidosActionPerformed(evt);
             }
         });
+<<<<<<< HEAD
         getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 510, -1, -1));
 
         btnReporteAminoacidos.setText("REPORTE COMPLETO AMINOACIDOS");
@@ -163,6 +172,9 @@ private GestorSecuencia gestorSecuencia;
             }
         });
         getContentPane().add(btnReporteAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 510, -1, -1));
+=======
+        getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 510, -1, -1));
+>>>>>>> 35c07b6cec387bcdfce485689f6303e9af818e1d
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -213,6 +225,7 @@ private GestorSecuencia gestorSecuencia;
     JOptionPane.showMessageDialog(this, resultado.toString());
 
     }//GEN-LAST:event_btnAminoacidosActionPerformed
+
 
     private void btnReporteAminoacidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteAminoacidosActionPerformed
         java.util.List<InfoTripleta> reporte = AnalizadorAminoacidos.analizar(tablaHash);

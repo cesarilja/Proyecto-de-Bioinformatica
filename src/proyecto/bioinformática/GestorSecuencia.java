@@ -8,7 +8,7 @@ import java.util.*;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -48,7 +48,7 @@ public class GestorSecuencia {
     
     // Método para mostrar diálogo y leer el archivo de la secuencia
     public String leerSecuenciaDeArchivo() {
-        JFileChooser fileChooser = new JFileChooser();
+    JFileChooser fileChooser = new JFileChooser();
     // Filtro: solo archivos .txt
     FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de texto (*.txt)", "txt");
     fileChooser.setFileFilter(filtro);
@@ -65,6 +65,7 @@ public class GestorSecuencia {
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = br.readLine()) != null) {
+                // Opcional: ignorar encabezado FASTA
                 if (!linea.startsWith(">")) {
                     secuencia.append(linea.trim().toUpperCase());
                 }
@@ -75,5 +76,5 @@ public class GestorSecuencia {
         }
     }
     return null;
-    }
+}
 }
