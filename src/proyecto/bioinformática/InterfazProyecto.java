@@ -150,11 +150,9 @@ private GestorSecuencia gestorSecuencia;
                 btnColisionesActionPerformed(evt);
             }
         });
-<<<<<<< HEAD
+
         getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, -1, -1));
-=======
         getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 510, -1, -1));
->>>>>>> 35c07b6cec387bcdfce485689f6303e9af818e1d
 
         btnAminoacidos.setText("VER AMINOÁCIDOS");
         btnAminoacidos.addActionListener(new java.awt.event.ActionListener() {
@@ -162,7 +160,7 @@ private GestorSecuencia gestorSecuencia;
                 btnAminoacidosActionPerformed(evt);
             }
         });
-<<<<<<< HEAD
+
         getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 510, -1, -1));
 
         btnReporteAminoacidos.setText("REPORTE COMPLETO AMINOACIDOS");
@@ -172,9 +170,7 @@ private GestorSecuencia gestorSecuencia;
             }
         });
         getContentPane().add(btnReporteAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 510, -1, -1));
-=======
         getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 510, -1, -1));
->>>>>>> 35c07b6cec387bcdfce485689f6303e9af818e1d
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
