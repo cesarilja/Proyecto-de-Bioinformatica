@@ -4,18 +4,57 @@
  */
 package proyecto.bioinformática;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import proyecto.bioinformática.Tripleta;
+import proyecto.bioinformática.AnalizadorAminoacidos.InfoTripleta;
+import java.awt.*;
+import javax.swing.*;
+
 /**
  *
  * @author Dell
  */
 public class InterfazProyecto extends javax.swing.JFrame {
+private HashTableTripletas tablaHash;
+private GestorSecuencia gestorSecuencia;
 
     /**
      * Creates new form InterfazProyecto
      */
     public InterfazProyecto() {
+        tablaHash = new HashTableTripletas();
+        gestorSecuencia = new GestorSecuencia();
         initComponents();
     }
+    
+    private void llenarTablaTripletas() {
+    DefaultTableModel model = (DefaultTableModel) tablaTripletas.getModel();
+    model.setRowCount(0); // Limpia la tabla
+    for (Tripleta t : tablaHash.obtenerTodas()) {
+        model.addRow(new Object[]{
+            t.getValor(),
+            t.getFrecuencia(),
+            t.getPosiciones().toString()
+            });
+        }
+        }
+
+    private void llenarComboBoxTripletas() {
+        comboTripletas.removeAllItems();
+        for (Tripleta t : tablaHash.obtenerTodas()) {
+            comboTripletas.addItem(t.getValor());
+        }
+    }
+    
+    private void mostrarMasYMenosFrecuente() {
+    Tripleta mas = tablaHash.getMasFrecuente();
+    Tripleta menos = tablaHash.getMenosFrecuente();
+    lblMasFrecuente.setText(mas != null ? mas.getValor() : "");
+    lblMenosFrecuente.setText(menos != null ? menos.getValor() : "");
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -40,9 +79,10 @@ public class InterfazProyecto extends javax.swing.JFrame {
         lblResultadoBusqueda = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         lblMenosFrecuente = new javax.swing.JLabel();
-        lblMasFrecuente1 = new javax.swing.JLabel();
+        lblMasFrecuente = new javax.swing.JLabel();
         btnColisiones = new javax.swing.JButton();
         btnAminoacidos = new javax.swing.JButton();
+        btnReporteAminoacidos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -51,6 +91,11 @@ public class InterfazProyecto extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, -1, -1));
 
         btnCargarArchivo.setText("CARGAR SECUENCIA");
+        btnCargarArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarArchivoActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnCargarArchivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 490, 570, 20));
 
@@ -92,8 +137,8 @@ public class InterfazProyecto extends javax.swing.JFrame {
         lblMenosFrecuente.setText("MENOS FRECUENTE:  ");
         getContentPane().add(lblMenosFrecuente, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 460, -1, -1));
 
-        lblMasFrecuente1.setText("MÁS FRECUENTE:  ");
-        getContentPane().add(lblMasFrecuente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, -1, -1));
+        lblMasFrecuente.setText("MÁS FRECUENTE:  ");
+        getContentPane().add(lblMasFrecuente, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, -1, -1));
 
         btnColisiones.setText("VER COLISIONES");
         btnColisiones.addActionListener(new java.awt.event.ActionListener() {
@@ -101,17 +146,99 @@ public class InterfazProyecto extends javax.swing.JFrame {
                 btnColisionesActionPerformed(evt);
             }
         });
-        getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 510, -1, -1));
+        getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, -1, -1));
 
         btnAminoacidos.setText("VER AMINOÁCIDOS");
-        getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 510, -1, -1));
+        btnAminoacidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAminoacidosActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 510, -1, -1));
+
+        btnReporteAminoacidos.setText("REPORTE COMPLETO AMINOACIDOS");
+        btnReporteAminoacidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteAminoacidosActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnReporteAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 510, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnColisionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColisionesActionPerformed
-        // TODO add your handling code here:
+       List<List<Tripleta>> colisiones = tablaHash.obtenerColisiones();
+    StringBuilder sb = new StringBuilder();
+    for (List<Tripleta> bucket : colisiones) {
+        sb.append("Colisión en bucket:\n");
+        for (Tripleta t : bucket) {
+            sb.append(" - ").append(t.getValor()).append("\n");
+        }
+    }
+    JOptionPane.showMessageDialog(this, sb.length() > 0 ? sb.toString() : "No hay colisiones.");
+
     }//GEN-LAST:event_btnColisionesActionPerformed
+
+    private void btnCargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarArchivoActionPerformed
+    tablaHash.limpiar(); // Limpia la tabla por si ya había datos
+
+    String secuencia = gestorSecuencia.leerSecuenciaDeArchivo();
+    if (secuencia == null || secuencia.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "No se pudo leer la secuencia.");
+        return;
+    }
+
+    // Divide en tripletas e inserta en la hash
+    for (int i = 0; i + 2 < secuencia.length(); i += 3) {
+        String tripleta = secuencia.substring(i, i + 3);
+        tablaHash.insertarTripleta(tripleta, i);
+    }
+
+    llenarTablaTripletas();
+    llenarComboBoxTripletas();
+    mostrarMasYMenosFrecuente();
+    JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
+
+    }//GEN-LAST:event_btnCargarArchivoActionPerformed
+
+    private void btnAminoacidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAminoacidosActionPerformed
+        StringBuilder resultado = new StringBuilder();
+    for (Tripleta t : tablaHash.obtenerTodas()) {
+        resultado.append(t.getValor())
+                 .append(" → ")
+                 .append(AminoacidosMapper.traducir(t.getValor()))
+                 .append("\n");
+    }
+    JOptionPane.showMessageDialog(this, resultado.toString());
+
+    }//GEN-LAST:event_btnAminoacidosActionPerformed
+
+    private void btnReporteAminoacidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteAminoacidosActionPerformed
+        java.util.List<InfoTripleta> reporte = AnalizadorAminoacidos.analizar(tablaHash);
+
+    // Construir tabla
+    String[] columnas = {"Tripleta ADN", "Tripleta ARN", "Aminoácido", "Frecuencia", "Posiciones", "Inicio", "Paro", "Presente"};
+    Object[][] datos = new Object[reporte.size()][columnas.length];
+    int i = 0;
+    for (InfoTripleta info : reporte) {
+        datos[i][0] = info.tripletaADN;
+        datos[i][1] = info.tripletaARN;
+        datos[i][2] = info.aminoacido;
+        datos[i][3] = info.frecuencia;
+        datos[i][4] = info.posiciones.toString();
+        datos[i][5] = info.esInicio ? "Sí" : "";
+        datos[i][6] = info.esParo ? "Sí" : "";
+        datos[i][7] = info.presente ? "✔" : "";
+        i++;
+    }
+    JTable tabla = new JTable(datos, columnas);
+    JScrollPane scroll = new JScrollPane(tabla);
+    tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    tabla.setPreferredScrollableViewportSize(new Dimension(700, 400));
+
+    JOptionPane.showMessageDialog(this, scroll, "Reporte de Aminoácidos", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnReporteAminoacidosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,6 +281,7 @@ public class InterfazProyecto extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCargarArchivo;
     private javax.swing.JButton btnColisiones;
+    private javax.swing.JButton btnReporteAminoacidos;
     private javax.swing.JComboBox<String> comboTripletas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -162,7 +290,7 @@ public class InterfazProyecto extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JLabel lblMasFrecuente1;
+    private javax.swing.JLabel lblMasFrecuente;
     private javax.swing.JLabel lblMenosFrecuente;
     private javax.swing.JLabel lblResultadoBusqueda;
     private javax.swing.JTable tablaTripletas;

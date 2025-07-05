@@ -5,6 +5,9 @@
 package proyecto.bioinformática;
 import java.io.*;
 import java.util.*;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 /**
@@ -42,7 +45,35 @@ public class GestorSecuencia {
         }
         return tripletas;
     }
-}
-
     
+    // Método para mostrar diálogo y leer el archivo de la secuencia
+    public String leerSecuenciaDeArchivo() {
+        JFileChooser fileChooser = new JFileChooser();
+    // Filtro: solo archivos .txt
+    FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de texto (*.txt)", "txt");
+    fileChooser.setFileFilter(filtro);
 
+    int seleccion = fileChooser.showOpenDialog(null);
+    if (seleccion == JFileChooser.APPROVE_OPTION) {
+        File archivo = fileChooser.getSelectedFile();
+        // Validación extra por si el usuario escribe el nombre manualmente
+        if (!archivo.getName().toLowerCase().endsWith(".txt")) {
+            JOptionPane.showMessageDialog(null, "Por favor selecciona un archivo con extensión .txt.");
+            return null;
+        }
+        StringBuilder secuencia = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                if (!linea.startsWith(">")) {
+                    secuencia.append(linea.trim().toUpperCase());
+                }
+            }
+            return secuencia.toString();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + e.getMessage());
+        }
+    }
+    return null;
+    }
+}
