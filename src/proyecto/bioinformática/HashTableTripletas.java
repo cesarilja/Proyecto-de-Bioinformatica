@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package proyecto.bioinformática;
-import java.util.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,13 +29,10 @@ public class HashTableTripletas {
         }
     }
 
-    // Hash simple pero eficiente para tripletas (codones)
     private int hash(String tripleta) {
-        // Puede usar hashCode() pero lo limitamos y nos aseguramos que sea positivo
         return Math.abs(tripleta.hashCode()) % size;
     }
 
-    // Inserta o actualiza una tripleta, guarda frecuencia y posiciones
     public void insertarTripleta(String tripleta, int posicion) {
         int idx = hash(tripleta);
         for (Tripleta t : table[idx]) {
@@ -46,13 +42,12 @@ public class HashTableTripletas {
                 return;
             }
         }
-        // No estaba, la agregamos
         Tripleta nueva = new Tripleta(tripleta);
-        nueva.agregarPosicion(posicion);
-        table[idx].add(nueva);
+    nueva.incrementarFrecuencia(); // Aumenta la frecuencia al crear la tripleta
+    nueva.agregarPosicion(posicion);
+    table[idx].add(nueva);
     }
 
-    // Buscar una tripleta (devuelve el objeto Tripleta o null)
     public Tripleta buscarTripleta(String tripleta) {
         int idx = hash(tripleta);
         for (Tripleta t : table[idx]) {
@@ -61,7 +56,6 @@ public class HashTableTripletas {
         return null;
     }
 
-    // Devuelve todas las tripletas (para mostrar en tabla o recorrer)
     public List<Tripleta> obtenerTodas() {
         List<Tripleta> lista = new ArrayList<>();
         for (LinkedList<Tripleta> bucket : table) {
@@ -70,7 +64,6 @@ public class HashTableTripletas {
         return lista;
     }
 
-    // Devuelve la tripleta más frecuente
     public Tripleta getMasFrecuente() {
         Tripleta max = null;
         for (Tripleta t : obtenerTodas()) {
@@ -80,7 +73,6 @@ public class HashTableTripletas {
         return max;
     }
 
-    // Devuelve la tripleta menos frecuente
     public Tripleta getMenosFrecuente() {
         Tripleta min = null;
         for (Tripleta t : obtenerTodas()) {
@@ -90,7 +82,6 @@ public class HashTableTripletas {
         return min;
     }
 
-    // Devuelve una lista de buckets con colisiones (>1 elemento)
     public List<List<Tripleta>> obtenerColisiones() {
         List<List<Tripleta>> colisiones = new ArrayList<>();
         for (LinkedList<Tripleta> bucket : table) {
@@ -101,7 +92,6 @@ public class HashTableTripletas {
         return colisiones;
     }
 
-    // Limpia la tabla hash (útil para cargar nuevo archivo)
     public void limpiar() {
         for (LinkedList<Tripleta> bucket : table) {
             bucket.clear();
