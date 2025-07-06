@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package proyecto.bioinformática;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**

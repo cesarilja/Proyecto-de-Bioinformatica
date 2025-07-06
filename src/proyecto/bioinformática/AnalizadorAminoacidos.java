@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package proyecto.bioinformática;
-import java.util.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
