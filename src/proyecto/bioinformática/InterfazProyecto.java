@@ -14,7 +14,10 @@ import proyecto.bioinformática.AnalizadorAminoacidos.InfoTripleta;
 import proyecto.bioinformática.Tripleta;
 import proyecto.bioinformática.AnalizadorAminoacidos.InfoTripleta;
 import java.awt.*;
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
 import javax.swing.*;
 
 /**
@@ -93,7 +96,10 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
         btnColisiones = new javax.swing.JButton();
         btnAminoacidos = new javax.swing.JButton();
         btnReporteAminoacidos = new javax.swing.JButton();
+<<<<<<< HEAD
         btnReinicio = new javax.swing.JButton();
+=======
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -159,7 +165,13 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
                 btnColisionesActionPerformed(evt);
             }
         });
+<<<<<<< HEAD
         getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, -1, -1));
+=======
+
+        getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, -1, -1));
+        getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 510, -1, -1));
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
 
         btnAminoacidos.setText("VER AMINOÁCIDOS");
         btnAminoacidos.addActionListener(new java.awt.event.ActionListener() {
@@ -167,6 +179,10 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
                 btnAminoacidosActionPerformed(evt);
             }
         });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
         getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 510, -1, -1));
 
         btnReporteAminoacidos.setText("REPORTE COMPLETO AMINOACIDOS");
@@ -176,6 +192,7 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
             }
         });
         getContentPane().add(btnReporteAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 510, -1, -1));
+<<<<<<< HEAD
 
         btnReinicio.setText("REINICIAR");
         btnReinicio.addActionListener(new java.awt.event.ActionListener() {
@@ -184,6 +201,9 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
             }
         });
         getContentPane().add(btnReinicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, -1, -1));
+=======
+        getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 510, -1, -1));
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -287,6 +307,7 @@ JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
     JOptionPane.showMessageDialog(this, scroll, "Reporte de Aminoácidos", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnReporteAminoacidosActionPerformed
 
+<<<<<<< HEAD
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
 
     String tripleta = (String) comboTripletas.getSelectedItem();
@@ -320,6 +341,8 @@ JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
     JOptionPane.showMessageDialog(this, "¡La aplicación ha sido reiniciada!");
     }//GEN-LAST:event_btnReinicioActionPerformed
 
+=======
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
     /**
      * @param args the command line arguments
      */
@@ -360,7 +383,10 @@ JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCargarArchivo;
     private javax.swing.JButton btnColisiones;
+<<<<<<< HEAD
     private javax.swing.JButton btnReinicio;
+=======
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
     private javax.swing.JButton btnReporteAminoacidos;
     private javax.swing.JComboBox<String> comboTripletas;
     private javax.swing.JLabel jLabel2;
