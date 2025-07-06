@@ -14,7 +14,14 @@ import proyecto.bioinformática.AnalizadorAminoacidos.InfoTripleta;
 import proyecto.bioinformática.Tripleta;
 import proyecto.bioinformática.AnalizadorAminoacidos.InfoTripleta;
 import java.awt.*;
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+<<<<<<< HEAD
+import java.util.ArrayList;
+=======
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
+>>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
 import javax.swing.*;
 
 /**
@@ -99,7 +106,14 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
         btnColisiones = new javax.swing.JButton();
         btnAminoacidos = new javax.swing.JButton();
         btnReporteAminoacidos = new javax.swing.JButton();
+<<<<<<< HEAD
         btnReinicio = new javax.swing.JButton();
+=======
+<<<<<<< HEAD
+        btnReinicio = new javax.swing.JButton();
+=======
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
+>>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -165,7 +179,17 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
                 btnColisionesActionPerformed(evt);
             }
         });
+<<<<<<< HEAD
         getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, -1, -1));
+=======
+<<<<<<< HEAD
+        getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, -1, -1));
+=======
+
+        getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, -1, -1));
+        getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 510, -1, -1));
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
+>>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
 
         btnAminoacidos.setText("VER AMINOÁCIDOS");
         btnAminoacidos.addActionListener(new java.awt.event.ActionListener() {
@@ -173,6 +197,13 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
                 btnAminoacidosActionPerformed(evt);
             }
         });
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
+>>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
         getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 510, -1, -1));
 
         btnReporteAminoacidos.setText("REPORTE COMPLETO AMINOACIDOS");
@@ -182,6 +213,10 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
             }
         });
         getContentPane().add(btnReporteAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 510, -1, -1));
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
 
         btnReinicio.setText("REINICIAR");
         btnReinicio.addActionListener(new java.awt.event.ActionListener() {
@@ -190,6 +225,12 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
             }
         });
         getContentPane().add(btnReinicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, -1, -1));
+<<<<<<< HEAD
+=======
+=======
+        getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 510, -1, -1));
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
+>>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -293,6 +334,10 @@ JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
     JOptionPane.showMessageDialog(this, scroll, "Reporte de Aminoácidos", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnReporteAminoacidosActionPerformed
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
 
     String tripleta = (String) comboTripletas.getSelectedItem();
@@ -326,6 +371,11 @@ JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
     JOptionPane.showMessageDialog(this, "¡La aplicación ha sido reiniciada!");
     }//GEN-LAST:event_btnReinicioActionPerformed
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
+>>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
     /**
      * @param args the command line arguments
      */
@@ -366,7 +416,14 @@ JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCargarArchivo;
     private javax.swing.JButton btnColisiones;
+<<<<<<< HEAD
     private javax.swing.JButton btnReinicio;
+=======
+<<<<<<< HEAD
+    private javax.swing.JButton btnReinicio;
+=======
+>>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
+>>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
     private javax.swing.JButton btnReporteAminoacidos;
     private javax.swing.JComboBox<String> comboTripletas;
     private javax.swing.JLabel jLabel2;
