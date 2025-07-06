@@ -4,25 +4,25 @@
  */
 package proyecto.bioinformática;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 /**
  *
  * @author Dell
  */
 public class AnalizadorAminoacidos {
-     /**
-     * Genera el reporte de todas las tripletas posibles del ADN, indicando:
-     * - Aminoácido que codifican (usando la equivalencia T->U)
-     * - Frecuencia en la secuencia actual
-     * - Si son de inicio, de paro o no presentes.
+    /**
+     * Genera el reporte de todas las tripletas posibles del ADN
      */
-    public static List<InfoTripleta> analizar( HashTableTripletas hash ) {
+    public static List<InfoTripleta> analizar(HashTableTripletas hash) {
         List<InfoTripleta> resultado = new ArrayList<>();
         char[] bases = {'A','C','G','T'};
         Set<String> tripletasPresentes = new HashSet<>();
         for (Tripleta t : hash.obtenerTodas()) {
             tripletasPresentes.add(t.getValor());
         }
-
         for (char b1 : bases) {
             for (char b2 : bases) {
                 for (char b3 : bases) {
@@ -69,5 +69,4 @@ public class AnalizadorAminoacidos {
             this.presente = presente;
         }
     }
-    
 }

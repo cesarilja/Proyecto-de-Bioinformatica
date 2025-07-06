@@ -8,6 +8,12 @@ package proyecto.bioinformática;
  *
  * @author Dell
  */
+
+/**
+ * Nodo para el árbol de frecuencias de tripletas.
+ * Almacena una referencia a una tripleta y a sus nodos hijo izquierdo y derecho.
+ */
+
 public class NodoFrecuencia {
     
     public Tripleta tripleta;

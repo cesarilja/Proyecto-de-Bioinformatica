@@ -12,110 +12,67 @@ import java.util.Map;
  * @author Dell
  */
 /**
- * Traductor de codones (tripletas de ARN) a aminoácidos.
- * Utiliza la tabla proporcionada en las instrucciones del proyecto.
- * Traduce a nombre completo del aminoácido, o "STOP" si aplica.
+ /**
+ * Clase utilitaria para mapear tripletas de ARN a aminoácidos.
+ * Ofrece métodos para traducir tripletas y obtener equivalencias.
  */
 public class AminoacidosMapper {
-    private static final Map<String, String> codonToAminoacido = new HashMap<>();
+    private static final String[] codones = {
+        "UUU", "UUC", // Fenilalanina
+        "UUA", "UUG", "CUU", "CUC", "CUA", "CUG", // Leucina
+        "UCU", "UCC", "UCA", "UCG", "AGU", "AGC", // Serina
+        "UAU", "UAC", // Tirosina
+        "UAA", "UAG", "UGA", // STOP
+        "UGU", "UGC", // Cisteína
+        "UGG", // Triptófano
+        "CCU", "CCC", "CCA", "CCG", // Prolina
+        "CAU", "CAC", // Histidina
+        "CAA", "CAG", // Glutamina
+        "CGU", "CGC", "CGA", "CGG", "AGA", "AGG", // Arginina
+        "AUU", "AUC", "AUA", // Isoleucina
+        "AUG", // Metionina (Inicio)
+        "ACU", "ACC", "ACA", "ACG", // Treonina
+        "AAU", "AAC", // Asparagina
+        "AAA", "AAG", // Lisina
+        "GUU", "GUC", "GUA", "GUG", // Valina
+        "GCU", "GCC", "GCA", "GCG", // Alanina
+        "GAU", "GAC", // Ácido aspártico
+        "GAA", "GAG", // Ácido glutámico
+        "GGU", "GGC", "GGA", "GGG"  // Glicina
+    };
 
-    static {
-        // FENILALANINA
-        codonToAminoacido.put("UUU", "Fenilalanina");
-        codonToAminoacido.put("UUC", "Fenilalanina");
-        // LEUCINA
-        codonToAminoacido.put("UUA", "Leucina");
-        codonToAminoacido.put("UUG", "Leucina");
-        codonToAminoacido.put("CUU", "Leucina");
-        codonToAminoacido.put("CUC", "Leucina");
-        codonToAminoacido.put("CUA", "Leucina");
-        codonToAminoacido.put("CUG", "Leucina");
-        // SERINA
-        codonToAminoacido.put("UCU", "Serina");
-        codonToAminoacido.put("UCC", "Serina");
-        codonToAminoacido.put("UCA", "Serina");
-        codonToAminoacido.put("UCG", "Serina");
-        codonToAminoacido.put("AGU", "Serina");
-        codonToAminoacido.put("AGC", "Serina");
-        // TIROSINA
-        codonToAminoacido.put("UAU", "Tirosina");
-        codonToAminoacido.put("UAC", "Tirosina");
-        // STOP (Ocre, Ámbar, Opalo)
-        codonToAminoacido.put("UAA", "STOP");
-        codonToAminoacido.put("UAG", "STOP");
-        codonToAminoacido.put("UGA", "STOP");
-        // CISTEÍNA
-        codonToAminoacido.put("UGU", "Cisteína");
-        codonToAminoacido.put("UGC", "Cisteína");
-        // TRIPTÓFANO
-        codonToAminoacido.put("UGG", "Triptófano");
-        // PROLINA
-        codonToAminoacido.put("CCU", "Prolina");
-        codonToAminoacido.put("CCC", "Prolina");
-        codonToAminoacido.put("CCA", "Prolina");
-        codonToAminoacido.put("CCG", "Prolina");
-        // HISTIDINA
-        codonToAminoacido.put("CAU", "Histidina");
-        codonToAminoacido.put("CAC", "Histidina");
-        // GLUTAMINA
-        codonToAminoacido.put("CAA", "Glutamina");
-        codonToAminoacido.put("CAG", "Glutamina");
-        // ARGININA
-        codonToAminoacido.put("CGU", "Arginina");
-        codonToAminoacido.put("CGC", "Arginina");
-        codonToAminoacido.put("CGA", "Arginina");
-        codonToAminoacido.put("CGG", "Arginina");
-        codonToAminoacido.put("AGA", "Arginina");
-        codonToAminoacido.put("AGG", "Arginina");
-        // ISOLEUCINA
-        codonToAminoacido.put("AUU", "Isoleucina");
-        codonToAminoacido.put("AUC", "Isoleucina");
-        codonToAminoacido.put("AUA", "Isoleucina");
-        // METIONINA (Inicio)
-        codonToAminoacido.put("AUG", "Metionina");
-        // TREONINA
-        codonToAminoacido.put("ACU", "Treonina");
-        codonToAminoacido.put("ACC", "Treonina");
-        codonToAminoacido.put("ACA", "Treonina");
-        codonToAminoacido.put("ACG", "Treonina");
-        // ASPARAGINA
-        codonToAminoacido.put("AAU", "Asparagina");
-        codonToAminoacido.put("AAC", "Asparagina");
-        // LISINA
-        codonToAminoacido.put("AAA", "Lisina");
-        codonToAminoacido.put("AAG", "Lisina");
-        // VALINA
-        codonToAminoacido.put("GUU", "Valina");
-        codonToAminoacido.put("GUC", "Valina");
-        codonToAminoacido.put("GUA", "Valina");
-        codonToAminoacido.put("GUG", "Valina");
-        // ALANINA
-        codonToAminoacido.put("GCU", "Alanina");
-        codonToAminoacido.put("GCC", "Alanina");
-        codonToAminoacido.put("GCA", "Alanina");
-        codonToAminoacido.put("GCG", "Alanina");
-        // ÁCIDO ASPÁRTICO
-        codonToAminoacido.put("GAU", "Ácido aspártico");
-        codonToAminoacido.put("GAC", "Ácido aspártico");
-        // ÁCIDO GLUTÁMICO
-        codonToAminoacido.put("GAA", "Ácido glutámico");
-        codonToAminoacido.put("GAG", "Ácido glutámico");
-        // GLICINA
-        codonToAminoacido.put("GGU", "Glicina");
-        codonToAminoacido.put("GGC", "Glicina");
-        codonToAminoacido.put("GGA", "Glicina");
-        codonToAminoacido.put("GGG", "Glicina");
-    }
+    private static final String[] aminoacidos = {
+        "Fenilalanina", "Fenilalanina",
+        "Leucina", "Leucina", "Leucina", "Leucina", "Leucina", "Leucina",
+        "Serina", "Serina", "Serina", "Serina", "Serina", "Serina",
+        "Tirosina", "Tirosina",
+        "STOP", "STOP", "STOP",
+        "Cisteína", "Cisteína",
+        "Triptófano",
+        "Prolina", "Prolina", "Prolina", "Prolina",
+        "Histidina", "Histidina",
+        "Glutamina", "Glutamina",
+        "Arginina", "Arginina", "Arginina", "Arginina", "Arginina", "Arginina",
+        "Isoleucina", "Isoleucina", "Isoleucina",
+        "Metionina",
+        "Treonina", "Treonina", "Treonina", "Treonina",
+        "Asparagina", "Asparagina",
+        "Lisina", "Lisina",
+        "Valina", "Valina", "Valina", "Valina",
+        "Alanina", "Alanina", "Alanina", "Alanina",
+        "Ácido aspártico", "Ácido aspártico",
+        "Ácido glutámico", "Ácido glutámico",
+        "Glicina", "Glicina", "Glicina", "Glicina"
+    };
 
-    /**
-     * Traduce una tripleta de ARN a su aminoácido (nombre completo).
-     * Si el codón no es válido, regresa "?".
-     * @param tripleta Codón de ARN (ejemplo: "AUG")
-     * @return Nombre completo del aminoácido, "STOP" para codones de paro, o "?" si es inválido.
-     */
     public static String traducir(String tripleta) {
         if (tripleta == null) return "?";
         String codon = tripleta.toUpperCase();
-        return codonToAminoacido.getOrDefault(codon, "?");
+        for (int i = 0; i < codones.length; i++) {
+            if (codones[i].equals(codon)) {
+                return aminoacidos[i];
+            }
+        }
+        return "?";
     }
 }

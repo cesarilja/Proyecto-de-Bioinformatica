@@ -8,6 +8,11 @@ package proyecto.bioinformática;
  *
  * @author Dell
  */
+
+/**
+ * Clase principal de arranque del proyecto de bioinformática.
+ * Contiene el método main y lanza la aplicación.
+ */
 public class ProyectoBioinformática {
 
     /**
