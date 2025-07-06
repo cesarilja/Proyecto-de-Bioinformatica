@@ -8,6 +8,11 @@ package proyecto.bioinformática;
  *
  * @author Dell
  */
+
+/**
+ * Representa una tripleta (codón) de bases nitrogenadas.
+ * Almacena su valor, frecuencia de aparición y posiciones en la secuencia.
+ */
 public class Tripleta {
     private String valor;
     private int frecuencia;

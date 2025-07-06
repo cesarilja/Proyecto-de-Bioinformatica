@@ -12,7 +12,8 @@ import java.util.List;
  */
 
 /**
- * Árbol binario de búsqueda (BST) para ordenar Tripletas por frecuencia.
+ * Implementa un árbol binario para ordenar tripletas por frecuencia.
+ * Permite obtener tripletas más y menos frecuentes, así como recorridos ordenados.
  */
 public class ArbolFrecuencias {
     private NodoFrecuencia raiz;
@@ -75,8 +76,6 @@ public class ArbolFrecuencias {
         return actual.tripleta;
     }
 
-
-    //Limpia el árbol.
     public void limpiar() {
         raiz = null;
     }

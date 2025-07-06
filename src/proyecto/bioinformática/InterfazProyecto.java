@@ -14,14 +14,7 @@ import proyecto.bioinformática.AnalizadorAminoacidos.InfoTripleta;
 import proyecto.bioinformática.Tripleta;
 import proyecto.bioinformática.AnalizadorAminoacidos.InfoTripleta;
 import java.awt.*;
-<<<<<<< HEAD
 import java.util.ArrayList;
-=======
-<<<<<<< HEAD
-import java.util.ArrayList;
-=======
->>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
->>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
 import javax.swing.*;
 
 /**
@@ -106,14 +99,7 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
         btnColisiones = new javax.swing.JButton();
         btnAminoacidos = new javax.swing.JButton();
         btnReporteAminoacidos = new javax.swing.JButton();
-<<<<<<< HEAD
         btnReinicio = new javax.swing.JButton();
-=======
-<<<<<<< HEAD
-        btnReinicio = new javax.swing.JButton();
-=======
->>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
->>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -179,17 +165,7 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
                 btnColisionesActionPerformed(evt);
             }
         });
-<<<<<<< HEAD
         getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, -1, -1));
-=======
-<<<<<<< HEAD
-        getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, -1, -1));
-=======
-
-        getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, -1, -1));
-        getContentPane().add(btnColisiones, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 510, -1, -1));
->>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
->>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
 
         btnAminoacidos.setText("VER AMINOÁCIDOS");
         btnAminoacidos.addActionListener(new java.awt.event.ActionListener() {
@@ -197,13 +173,6 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
                 btnAminoacidosActionPerformed(evt);
             }
         });
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
->>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
         getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 510, -1, -1));
 
         btnReporteAminoacidos.setText("REPORTE COMPLETO AMINOACIDOS");
@@ -213,10 +182,6 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
             }
         });
         getContentPane().add(btnReporteAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 510, -1, -1));
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
 
         btnReinicio.setText("REINICIAR");
         btnReinicio.addActionListener(new java.awt.event.ActionListener() {
@@ -225,18 +190,13 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
             }
         });
         getContentPane().add(btnReinicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, -1, -1));
-<<<<<<< HEAD
-=======
-=======
-        getContentPane().add(btnAminoacidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 510, -1, -1));
->>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
->>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnColisionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColisionesActionPerformed
-       List<List<Tripleta>> colisiones = tablaHash.obtenerColisiones();
+       //Metodo para ver las colisiones 
+        List<List<Tripleta>> colisiones = tablaHash.obtenerColisiones();
     StringBuilder sb = new StringBuilder();
     for (List<Tripleta> bucket : colisiones) {
         sb.append("Colisión en bucket:\n");
@@ -249,35 +209,37 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
     }//GEN-LAST:event_btnColisionesActionPerformed
 
     private void btnCargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarArchivoActionPerformed
+    //Metodo para caragar un archivo de tu computador
     tablaHash.limpiar();
-String secuencia = gestorSecuencia.leerSecuenciaDeArchivo();
-if (secuencia == null || secuencia.isEmpty()) {
+    String secuencia = gestorSecuencia.leerSecuenciaDeArchivo();
+    if (secuencia == null || secuencia.isEmpty()) {
     JOptionPane.showMessageDialog(this, "No se pudo leer la secuencia.");
     return;
-}
+    }
 
-lblArchivoNombre.setText("ARCHIVO: " + gestorSecuencia.getNombreArchivoActual());
+    lblArchivoNombre.setText("ARCHIVO: " + gestorSecuencia.getNombreArchivoActual());
 
-// Divide en tripletas e inserta en la hash
-for (int i = 0; i + 2 < secuencia.length(); i += 3) {
+    // Divide en tripletas e inserta en la hash
+    for (int i = 0; i + 2 < secuencia.length(); i += 3) {
     String tripleta = secuencia.substring(i, i + 3);
     tablaHash.insertarTripleta(tripleta, i);
-}
+    }
 
-arbolFrecuencias.limpiar();
-for (Tripleta t : tablaHash.obtenerTodas()) {
-    arbolFrecuencias.insertar(t);
-}
+    arbolFrecuencias.limpiar();
+    for (Tripleta t : tablaHash.obtenerTodas()) {
+        arbolFrecuencias.insertar(t);
+    }
 
 
-llenarTablaTripletas();
-llenarComboBoxTripletas();
-mostrarMasYMenosFrecuente();
-JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
+    llenarTablaTripletas();
+    llenarComboBoxTripletas();
+    mostrarMasYMenosFrecuente();
+    JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
     }//GEN-LAST:event_btnCargarArchivoActionPerformed
 
     private void btnAminoacidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAminoacidosActionPerformed
-        // Genera la lista de tripleta → aminoácido
+    //Metodo para ver la lista de aminoacidos   
+    // Genera la lista de tripleta → aminoácido
     List<String> listaAminoacidos = new ArrayList<>();
     for (Tripleta t : tablaHash.obtenerTodas()) {
         String tripletaADN = t.getValor();
@@ -309,6 +271,7 @@ JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
 
 
     private void btnReporteAminoacidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteAminoacidosActionPerformed
+        //Metodo para ver una tabla completa con todos los datos de los aminoacidos
         java.util.List<InfoTripleta> reporte = AnalizadorAminoacidos.analizar(tablaHash);
 
     // Construir tabla
@@ -334,12 +297,8 @@ JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
     JOptionPane.showMessageDialog(this, scroll, "Reporte de Aminoácidos", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnReporteAminoacidosActionPerformed
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-
+    //Metodo para buscar cada aminoacido
     String tripleta = (String) comboTripletas.getSelectedItem();
     Tripleta t = tablaHash.buscarTripleta(tripleta);
     if (t != null) {
@@ -353,6 +312,7 @@ JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnReinicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReinicioActionPerformed
+    // BOTON DE REINICIO
     if (tablaHash != null) tablaHash.limpiar();
     if (arbolFrecuencias != null) arbolFrecuencias.limpiar();
 
@@ -371,11 +331,6 @@ JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
     JOptionPane.showMessageDialog(this, "¡La aplicación ha sido reiniciada!");
     }//GEN-LAST:event_btnReinicioActionPerformed
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
->>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
     /**
      * @param args the command line arguments
      */
@@ -416,14 +371,7 @@ JOptionPane.showMessageDialog(this, "Secuencia cargada y analizada.");
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCargarArchivo;
     private javax.swing.JButton btnColisiones;
-<<<<<<< HEAD
     private javax.swing.JButton btnReinicio;
-=======
-<<<<<<< HEAD
-    private javax.swing.JButton btnReinicio;
-=======
->>>>>>> 3730dfc304b695006532ad3512dacfdb9757f222
->>>>>>> e5f954bf5c0e49406ea1c0cb304126548a3f0d1b
     private javax.swing.JButton btnReporteAminoacidos;
     private javax.swing.JComboBox<String> comboTripletas;
     private javax.swing.JLabel jLabel2;

@@ -11,12 +11,17 @@ import java.util.List;
  *
  * @author Dell
  */
+
+/**
+ * Implementa una tabla hash para almacenar y gestionar tripletas de ADN.
+ * Permite insertar, buscar y obtener estadísticas de tripletas y sus posiciones.
+ */
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class HashTableTripletas {
-    private static final int DEFAULT_SIZE = 67; // Número primo para mejor dispersión
+    private static final int DEFAULT_SIZE = 67; 
     private LinkedList<Tripleta>[] table;
     private int size;
 
