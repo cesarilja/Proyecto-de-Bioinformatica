@@ -16,12 +16,12 @@ package proyecto.bioinformática;
 public class Tripleta {
     private String valor;
     private int frecuencia;
-    private java.util.List<Integer> posiciones;
+    private ArregloEnteros posiciones;
 
     public Tripleta(String valor) {
         this.valor = valor;
         this.frecuencia = 0;
-        this.posiciones = new java.util.ArrayList<>();
+        this.posiciones = new ArregloEnteros();
     }
 
     public String getValor() {
@@ -37,11 +37,55 @@ public class Tripleta {
     }
 
     public void agregarPosicion(int pos) {
-        this.posiciones.add(pos);
+        this.posiciones.agregar(pos);
     }
 
-    public java.util.List<Integer> getPosiciones() {
+    public ArregloEnteros getPosiciones() {
         return posiciones;
+    }
+
+    /**
+     * Arreglo dinámico simple de enteros para posiciones, similar a lista.
+     */
+    public static class ArregloEnteros {
+        private int[] datos;
+        private int tamaño;
+
+        public ArregloEnteros() {
+            datos = new int[5];
+            tamaño = 0;
+        }
+
+        public void agregar(int valor) {
+            if (tamaño == datos.length) {
+                int[] nuevo = new int[datos.length * 2];
+                for (int i = 0; i < datos.length; i++) {
+                    nuevo[i] = datos[i];
+                }
+                datos = nuevo;
+            }
+            datos[tamaño++] = valor;
+        }
+
+        public int tamaño() {
+            return tamaño;
+        }
+
+        public int obtener(int idx) {
+            if (idx < 0 || idx >= tamaño) throw new IndexOutOfBoundsException();
+            return datos[idx];
+        }
+
+        @Override
+        public String toString() {
+            if (tamaño == 0) return "[]";
+            StringBuilder sb = new StringBuilder("[");
+            for (int i = 0; i < tamaño -1; i++) {
+                sb.append(datos[i]).append(", ");
+            }
+            sb.append(datos[tamaño -1]).append("]");
+            return sb.toString();
+        }
     }
 }
     

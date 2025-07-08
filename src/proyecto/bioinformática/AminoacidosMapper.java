@@ -65,7 +65,7 @@ public class AminoacidosMapper {
 
     public static String traducir(String tripleta) {
         if (tripleta == null) return "?";
-        String codon = tripleta.toUpperCase();
+        String codon = tripleta.toUpperCase().replace('T', 'U');
         for (int i = 0; i < codones.length; i++) {
             if (codones[i].equals(codon)) {
                 return aminoacidos[i];

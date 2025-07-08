@@ -7,13 +7,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 /**
  *
  * @author Dell
@@ -50,11 +46,11 @@ public class GestorSecuencia {
         return secuencia;
     }
 
-    public List<String> obtenerTripletas() {
-        List<String> tripletas = new ArrayList<>();
+    public ArregloStrings obtenerTripletas() {
+        ArregloStrings tripletas = new ArregloStrings();
         if (secuencia == null) return tripletas;
         for (int i = 0; i <= secuencia.length() - 3; i += 3) {
-            tripletas.add(secuencia.substring(i, i + 3));
+            tripletas.agregar(secuencia.substring(i, i + 3));
         }
         return tripletas;
     }
@@ -72,16 +68,17 @@ public class GestorSecuencia {
                 JOptionPane.showMessageDialog(null, "Por favor selecciona un archivo con extensión .txt.");
                 return null;
             }
-            StringBuilder secuencia = new StringBuilder();
+            StringBuilder secuenciaLeida = new StringBuilder();
             try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
                 String linea;
                 while ((linea = br.readLine()) != null) {
                     if (!linea.startsWith(">")) {
-                        secuencia.append(linea.trim().toUpperCase());
+                        secuenciaLeida.append(linea.trim().toUpperCase());
                     }
                 }
                 this.nombreArchivoActual = archivo.getName();
-                return secuencia.toString();
+                this.secuencia = secuenciaLeida.toString();
+                return this.secuencia;
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + e.getMessage());
                 this.nombreArchivoActual = "";
@@ -92,5 +89,40 @@ public class GestorSecuencia {
 
     public String getNombreArchivoActual() {
         return nombreArchivoActual;
+    }
+
+    /**
+     * Arreglo dinámico simple para cadenas.
+     */
+    public static class ArregloStrings {
+        private String[] datos;
+        private int tamaño;
+
+        public ArregloStrings() {
+            datos = new String[10];
+            tamaño = 0;
+        }
+
+        public void agregar(String valor) {
+            if (tamaño == datos.length) {
+                String[] nuevo = new String[datos.length * 2];
+                for (int i = 0; i < datos.length; i++) {
+                    nuevo[i] = datos[i];
+                }
+                datos = nuevo;
+            }
+            datos[tamaño++] = valor;
+        }
+
+        public int tamaño() {
+            return tamaño;
+        }
+
+        public String obtener(int idx) {
+            if (idx < 0 || idx >= tamaño) {
+                throw new IndexOutOfBoundsException();
+            }
+            return datos[idx];
+        }
     }
 }

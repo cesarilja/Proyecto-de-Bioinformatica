@@ -4,18 +4,12 @@
  */
 package proyecto.bioinformática;
 
-import java.awt.Dimension;
-import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
 import javax.swing.table.DefaultTableModel;
 import proyecto.bioinformática.AnalizadorAminoacidos.InfoTripleta;
-import proyecto.bioinformática.Tripleta;
-import proyecto.bioinformática.AnalizadorAminoacidos.InfoTripleta;
-import java.awt.*;
-import java.util.ArrayList;
-import javax.swing.*;
 
 /**
  *
@@ -27,50 +21,49 @@ import javax.swing.*;
  * Gestiona la interacción con el usuario y muestra la información procesada.
  */
 
-public class InterfazProyecto extends javax.swing.JFrame {
-private HashTableTripletas tablaHash;
-private GestorSecuencia gestorSecuencia;
-private String nombreArchivoActual = "";
-private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
+    public class InterfazProyecto extends javax.swing.JFrame {
+    private HashTableTripletas tablaHash;
+    private GestorSecuencia gestorSecuencia;
+    private String nombreArchivoActual = "";
+    private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
 
-    /**
-     * Creates new form InterfazProyecto
-     */
+
     public InterfazProyecto() {
         tablaHash = new HashTableTripletas();
         gestorSecuencia = new GestorSecuencia();
         initComponents();
     }
-    
+
     private void llenarTablaTripletas() {
-    // Usar el árbol de frecuencias para obtener las tripletas ordenadas
-    List<Tripleta> tripletasOrdenadas = arbolFrecuencias.inOrder();
+        Tripleta[] tripletasOrdenadas = arbolFrecuencias.inOrder();
 
-    DefaultTableModel model = (DefaultTableModel) tablaTripletas.getModel();
-    model.setRowCount(0); // Limpia la tabla
+        DefaultTableModel model = (DefaultTableModel) tablaTripletas.getModel();
+        model.setRowCount(0); // Limpia la tabla
 
-    for (Tripleta t : tripletasOrdenadas) {
-        model.addRow(new Object[]{
-            t.getValor(),
-            t.getFrecuencia(),
-            t.getPosiciones().toString()
-        });
+        for (int i = 0; i < tripletasOrdenadas.length; i++) {
+            Tripleta t = tripletasOrdenadas[i];
+            model.addRow(new Object[]{
+                t.getValor(),
+                t.getFrecuencia(),
+                t.getPosiciones().toString()
+            });
+        }
     }
-}
 
     private void llenarComboBoxTripletas() {
         comboTripletas.removeAllItems();
-        for (Tripleta t : tablaHash.obtenerTodas()) {
-            comboTripletas.addItem(t.getValor());
+        Tripleta[] todas = tablaHash.obtenerTodas();
+        for (int i = 0; i < todas.length; i++) {
+            comboTripletas.addItem(todas[i].getValor());
         }
     }
-    
+
     private void mostrarMasYMenosFrecuente() {
-    Tripleta mas = tablaHash.getMasFrecuente();
-    Tripleta menos = tablaHash.getMenosFrecuente();
-    lblMasFrecuente.setText("MÁS FRECUENTE: " + (mas != null ? mas.getValor() : ""));
-    lblMenosFrecuente.setText("MENOS FRECUENTE: " + (menos != null ? menos.getValor() : ""));
-}
+        Tripleta mas = tablaHash.getMasFrecuente();
+        Tripleta menos = tablaHash.getMenosFrecuente();
+        lblMasFrecuente.setText("MÁS FRECUENTE: " + (mas != null ? mas.getValor() : ""));
+        lblMenosFrecuente.setText("MENOS FRECUENTE: " + (menos != null ? menos.getValor() : ""));
+    }
 
 
     /**
@@ -195,17 +188,25 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnColisionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColisionesActionPerformed
-       //Metodo para ver las colisiones 
-        List<List<Tripleta>> colisiones = tablaHash.obtenerColisiones();
+         // Método para ver las colisiones
+    ListaEnlazada<Tripleta>[] colisiones = tablaHash.obtenerColisiones();
     StringBuilder sb = new StringBuilder();
-    for (List<Tripleta> bucket : colisiones) {
+
+    if (colisiones.length == 0) {
+        JOptionPane.showMessageDialog(this, "No hay colisiones.");
+        return;
+    }
+
+    for (int i = 0; i < colisiones.length; i++) {
         sb.append("Colisión en bucket:\n");
-        for (Tripleta t : bucket) {
+        ListaEnlazada<Tripleta> bucket = colisiones[i];
+        Object[] tripletasEnBucket = bucket.toArray();
+        for (int j = 0; j < tripletasEnBucket.length; j++) {
+            Tripleta t = (Tripleta) tripletasEnBucket[j];
             sb.append(" - ").append(t.getValor()).append("\n");
         }
     }
-    JOptionPane.showMessageDialog(this, sb.length() > 0 ? sb.toString() : "No hay colisiones.");
-
+    JOptionPane.showMessageDialog(this, sb.toString());
     }//GEN-LAST:event_btnColisionesActionPerformed
 
     private void btnCargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarArchivoActionPerformed
@@ -239,62 +240,53 @@ private ArbolFrecuencias arbolFrecuencias = new ArbolFrecuencias();
 
     private void btnAminoacidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAminoacidosActionPerformed
     //Metodo para ver la lista de aminoacidos   
-    // Genera la lista de tripleta → aminoácido
-    List<String> listaAminoacidos = new ArrayList<>();
-    for (Tripleta t : tablaHash.obtenerTodas()) {
-        String tripletaADN = t.getValor();
-        String tripletaARN = tripletaADN.replace('T', 'U');
-        String aminoacido = AminoacidosMapper.traducir(tripletaARN);
-        listaAminoacidos.add(tripletaADN + " → " + aminoacido);
-    }
+    Tripleta[] todas = tablaHash.obtenerTodas();
+        StringBuilder sb = new StringBuilder();
 
-    StringBuilder sb = new StringBuilder();
-    for (String linea : listaAminoacidos) {
-        sb.append(linea).append("\n");
-    }
+        for (int i = 0; i < todas.length; i++) {
+            Tripleta t = todas[i];
+            String tripletaADN = t.getValor();
+            String tripletaARN = tripletaADN.replace('T', 'U');
+            String aminoacido = AminoacidosMapper.traducir(tripletaARN);
+            sb.append(tripletaADN).append(" \u2192 ").append(aminoacido).append("\n");
+        }
 
-    JTextArea textArea = new JTextArea(sb.toString());
-    textArea.setEditable(false);
-    textArea.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 14));
+        JTextArea textArea = new JTextArea(sb.toString());
+        textArea.setEditable(false);
+        textArea.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 14));
+        textArea.setRows(20);
+        textArea.setColumns(40);
+        JScrollPane scrollPane = new JScrollPane(textArea);
 
-    
-    textArea.setRows(20);
-    textArea.setColumns(40);
-
-    
-    JScrollPane scrollPane = new JScrollPane(textArea);
-
-    
-    JOptionPane.showMessageDialog(this, scrollPane, "Aminoácidos", JOptionPane.INFORMATION_MESSAGE);
-
+        JOptionPane.showMessageDialog(this, scrollPane, "Aminoácidos", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnAminoacidosActionPerformed
 
 
     private void btnReporteAminoacidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteAminoacidosActionPerformed
         //Metodo para ver una tabla completa con todos los datos de los aminoacidos
-        java.util.List<InfoTripleta> reporte = AnalizadorAminoacidos.analizar(tablaHash);
+        InfoTripleta[] reporte = AnalizadorAminoacidos.analizar(tablaHash);
 
-    // Construir tabla
-    String[] columnas = {"Tripleta ADN", "Tripleta ARN", "Aminoácido", "Frecuencia", "Posiciones", "Inicio", "Paro", "Presente"};
-    Object[][] datos = new Object[reporte.size()][columnas.length];
-    int i = 0;
-    for (InfoTripleta info : reporte) {
-        datos[i][0] = info.tripletaADN;
-        datos[i][1] = info.tripletaARN;
-        datos[i][2] = info.aminoacido;
-        datos[i][3] = info.frecuencia;
-        datos[i][4] = info.posiciones.toString();
-        datos[i][5] = info.esInicio ? "Sí" : "";
-        datos[i][6] = info.esParo ? "Sí" : "";
-        datos[i][7] = info.presente ? "✔" : "";
-        i++;
-    }
-    JTable tabla = new JTable(datos, columnas);
-    JScrollPane scroll = new JScrollPane(tabla);
-    tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-    tabla.setPreferredScrollableViewportSize(new Dimension(700, 400));
+        String[] columnas = {"Tripleta ADN", "Tripleta ARN", "Aminoácido", "Frecuencia", "Posiciones", "Inicio", "Paro", "Presente"};
+        Object[][] datos = new Object[reporte.length][columnas.length];
 
-    JOptionPane.showMessageDialog(this, scroll, "Reporte de Aminoácidos", JOptionPane.INFORMATION_MESSAGE);
+        for (int i = 0; i < reporte.length; i++) {
+            InfoTripleta info = reporte[i];
+            datos[i][0] = info.tripletaADN;
+            datos[i][1] = info.tripletaARN;
+            datos[i][2] = info.aminoacido;
+            datos[i][3] = info.frecuencia;
+            datos[i][4] = info.posiciones.toString();
+            datos[i][5] = info.esInicio ? "Sí" : "";
+            datos[i][6] = info.esParo ? "Sí" : "";
+            datos[i][7] = info.presente ? "\u2714" : "";
+        }
+
+        JTable tabla = new JTable(datos, columnas);
+        JScrollPane scroll = new JScrollPane(tabla);
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tabla.setPreferredScrollableViewportSize(new Dimension(700, 400));
+
+        JOptionPane.showMessageDialog(this, scroll, "Reporte de Aminoácidos", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnReporteAminoacidosActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed

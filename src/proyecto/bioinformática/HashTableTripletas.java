@@ -3,9 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package proyecto.bioinformática;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+
 
 /**
  *
@@ -14,23 +12,19 @@ import java.util.List;
 
 /**
  * Implementa una tabla hash para almacenar y gestionar tripletas de ADN.
- * Permite insertar, buscar y obtener estadísticas de tripletas y sus posiciones.
+ * Ahora usa ListaEnlazada propia para manejar colisiones.
  */
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 public class HashTableTripletas {
     private static final int DEFAULT_SIZE = 67; 
-    private LinkedList<Tripleta>[] table;
+    private ListaEnlazada<Tripleta>[] table;
     private int size;
 
     @SuppressWarnings("unchecked")
     public HashTableTripletas() {
         this.size = DEFAULT_SIZE;
-        this.table = new LinkedList[size];
+        this.table = new ListaEnlazada[size];
         for (int i = 0; i < size; i++) {
-            table[i] = new LinkedList<>();
+            table[i] = new ListaEnlazada<>();
         }
     }
 
@@ -40,38 +34,53 @@ public class HashTableTripletas {
 
     public void insertarTripleta(String tripleta, int posicion) {
         int idx = hash(tripleta);
-        for (Tripleta t : table[idx]) {
-            if (t.getValor().equals(tripleta)) {
-                t.incrementarFrecuencia();
-                t.agregarPosicion(posicion);
-                return;
+        // Buscar si ya existe la tripleta
+        Tripleta encontrada = table[idx].buscar(new ListaEnlazada.Evaluador<Tripleta>() {
+            public boolean evaluar(Tripleta t) {
+                return t.getValor().equals(tripleta);
             }
+        });
+        if (encontrada != null) {
+            encontrada.incrementarFrecuencia();
+            encontrada.agregarPosicion(posicion);
+            return;
         }
         Tripleta nueva = new Tripleta(tripleta);
-    nueva.incrementarFrecuencia(); // Aumenta la frecuencia al crear la tripleta
-    nueva.agregarPosicion(posicion);
-    table[idx].add(nueva);
+        nueva.incrementarFrecuencia(); // Aumenta la frecuencia al crear la tripleta
+        nueva.agregarPosicion(posicion);
+        table[idx].agregar(nueva);
     }
 
     public Tripleta buscarTripleta(String tripleta) {
         int idx = hash(tripleta);
-        for (Tripleta t : table[idx]) {
-            if (t.getValor().equals(tripleta)) return t;
-        }
-        return null;
+        return table[idx].buscar(new ListaEnlazada.Evaluador<Tripleta>() {
+            public boolean evaluar(Tripleta t) {
+                return t.getValor().equals(tripleta);
+            }
+        });
     }
 
-    public List<Tripleta> obtenerTodas() {
-        List<Tripleta> lista = new ArrayList<>();
-        for (LinkedList<Tripleta> bucket : table) {
-            lista.addAll(bucket);
+    public Tripleta[] obtenerTodas() {
+        // Contar total de tripletas
+        int total = 0;
+        for (int i = 0; i < size; i++) {
+            total += table[i].tamaño();
         }
-        return lista;
+        Tripleta[] todas = new Tripleta[total];
+        int pos = 0;
+        for (int i = 0; i < size; i++) {
+            Object[] arr = table[i].toArray();
+            for (Object obj : arr) {
+                todas[pos++] = (Tripleta) obj;
+            }
+        }
+        return todas;
     }
 
     public Tripleta getMasFrecuente() {
         Tripleta max = null;
-        for (Tripleta t : obtenerTodas()) {
+        Tripleta[] todas = obtenerTodas();
+        for (Tripleta t : todas) {
             if (max == null || t.getFrecuencia() > max.getFrecuencia())
                 max = t;
         }
@@ -80,26 +89,36 @@ public class HashTableTripletas {
 
     public Tripleta getMenosFrecuente() {
         Tripleta min = null;
-        for (Tripleta t : obtenerTodas()) {
+        Tripleta[] todas = obtenerTodas();
+        for (Tripleta t : todas) {
             if (min == null || t.getFrecuencia() < min.getFrecuencia())
                 min = t;
         }
         return min;
     }
 
-    public List<List<Tripleta>> obtenerColisiones() {
-        List<List<Tripleta>> colisiones = new ArrayList<>();
-        for (LinkedList<Tripleta> bucket : table) {
-            if (bucket.size() > 1) {
-                colisiones.add(new ArrayList<>(bucket));
+    public ListaEnlazada<Tripleta>[] obtenerColisiones() {
+        // Solo los buckets con tamaño > 1
+        // Contamos cuántos buckets con colisiones tenemos
+        int cuentaColisiones = 0;
+        for (int i = 0; i < size; i++) {
+            if (table[i].tamaño() > 1)
+                cuentaColisiones++;
+        }
+        @SuppressWarnings("unchecked")
+        ListaEnlazada<Tripleta>[] resultado = new ListaEnlazada[cuentaColisiones];
+        int pos = 0;
+        for (int i = 0; i < size; i++) {
+            if (table[i].tamaño() > 1) {
+                resultado[pos++] = table[i];
             }
         }
-        return colisiones;
+        return resultado;
     }
 
     public void limpiar() {
-        for (LinkedList<Tripleta> bucket : table) {
-            bucket.clear();
+        for (int i = 0; i < size; i++) {
+            table[i].limpiar();
         }
     }
 }

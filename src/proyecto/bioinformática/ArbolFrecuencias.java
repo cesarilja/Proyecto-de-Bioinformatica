@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package proyecto.bioinformática;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -42,23 +40,22 @@ public class ArbolFrecuencias {
         return actual;
     }
 
-    
-    //Devuelve la lista de tripletas ordenadas por frecuencia ascendente.
-    public List<Tripleta> inOrder() {
-        List<Tripleta> lista = new ArrayList<>();
+    // Devuelve la lista de tripletas ordenadas por frecuencia ascendente.
+    public Tripleta[] inOrder() {
+        ArregloTripletas lista = new ArregloTripletas();
         inOrderRec(raiz, lista);
-        return lista;
+        return lista.toArray();
     }
 
-    private void inOrderRec(NodoFrecuencia nodo, List<Tripleta> lista) {
+    private void inOrderRec(NodoFrecuencia nodo, ArregloTripletas lista) {
         if (nodo != null) {
             inOrderRec(nodo.izquierdo, lista);
-            lista.add(nodo.tripleta);
+            lista.agregar(nodo.tripleta);
             inOrderRec(nodo.derecho, lista);
         }
     }
 
-    //Devuelve la tripleta con máxima frecuencia (más frecuente).
+    // Devuelve la tripleta con máxima frecuencia (más frecuente).
     public Tripleta getMasFrecuente() {
         NodoFrecuencia actual = raiz;
         if (actual == null) return null;
@@ -67,7 +64,7 @@ public class ArbolFrecuencias {
         return actual.tripleta;
     }
 
-    //Devuelve la tripleta con mínima frecuencia (menos frecuente).
+    // Devuelve la tripleta con mínima frecuencia (menos frecuente).
     public Tripleta getMenosFrecuente() {
         NodoFrecuencia actual = raiz;
         if (actual == null) return null;
@@ -79,5 +76,36 @@ public class ArbolFrecuencias {
     public void limpiar() {
         raiz = null;
     }
+
+    /**
+     * Arreglo dinámico para almacenar Tripletas sin usar librerías.
+     */
+    public static class ArregloTripletas {
+        private Tripleta[] datos;
+        private int tamaño;
+
+        public ArregloTripletas() {
+            datos = new Tripleta[10];
+            tamaño = 0;
+        }
+
+        public void agregar(Tripleta t) {
+            if (tamaño == datos.length) {
+                Tripleta[] nuevo = new Tripleta[datos.length * 2];
+                for (int i = 0; i < datos.length; i++) {
+                    nuevo[i] = datos[i];
+                }
+                datos = nuevo;
+            }
+            datos[tamaño++] = t;
+        }
+
+        public Tripleta[] toArray() {
+            Tripleta[] copia = new Tripleta[tamaño];
+            for (int i = 0; i < tamaño; i++) {
+                copia[i] = datos[i];
+            }
+            return copia;
+        }
+    }
 }
-    
